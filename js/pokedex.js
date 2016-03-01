@@ -19,9 +19,15 @@ pokeApp.controller('search', ['$scope','$log','$http','apiService', function($sc
   });
   
 
-  $scope.displayInfos = function(id) {
-	  apiService.getSkills(id,function(response) {
-		$scope.infos = response;
+  $scope.displayInfos = function(uri) {
+	  apiService.getSkills(uri,function(response) {
+        
+		$scope.infos = [
+          //{"nom": "name", "value": response.name},
+          //{"nom": "id", "value": response.pkdx_id},
+          //{"nom": "attack", "value": response.attack},
+          //{"nom": "defense", "value": response.defense}
+       ];
 	  });
   
   }
@@ -34,10 +40,14 @@ factory('apiService', ['$resource', '$log', function(http, logger) {
 
 	  return {
 		getNom : function(callback) {
-			http(pokeApiUrl+'api/v1/pokedex/1/').get().$promise.then(function successCallback(response) {
-				console.log(response.pokemon);
-				var pokemons = response.pokemon.map(function(e) {
-					return e.name;
+//			http(pokeApiUrl+'api/v1/pokedex/1/').get().$promise.then(function successCallback(response) {
+
+            // call API v2
+			http(pokeApiUrl+'api/v2/pokemon/').query().$promise.then(function successCallback(response) {
+				console.log(response);
+				//console.log(response.pokemon);
+				var pokemons = response.map(function(e) {
+                    return e;
 				});
 				callback(pokemons);
 			  }, function errorCallback(response) {
@@ -45,14 +55,13 @@ factory('apiService', ['$resource', '$log', function(http, logger) {
 				// or server returns response with an error status.
 			  });
 			},
-		getSkills : function(id,callback) {
-			http(pokeApiUrl+'api/v1/pokemon/:id/',{id:'@id'}).get({id:id}).$promise.then(function successCallback(response) {
+		getSkills : function(uri,callback) {
+            // FIX
+			http(':uri',{uri:'@uri'}).query({uri:uri}).$promise.then(function successCallback(response) {
 				console.log(response.attack);
-				/*var pokemons = response.pokemon.map(function(e) {
-					return e.name;
-				});*/
-				callback(response.attack);
+                callback(response);
 			  }, function errorCallback(response) {
+                console.log("error");
 				// called asynchronously if an error occurs
 				// or server returns response with an error status.
 			  });

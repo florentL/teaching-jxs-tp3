@@ -19,18 +19,23 @@
 		<br />
 		{{id}}
 		<br />
-		<input type="text" ng-model="filterPokemon" />
+		<input type="text" placeholder="filtre sur liste déroulante" ng-model="filterPokemon" />
 		  <select ng-model="selectPokemon">
-			<option ng-repeat="aPokemon in api | filter:filterPokemon:customComparator" value="{{aPokemon}}">{{aPokemon}}</option>
+			<option ng-repeat="aPokemon in api | filter:filterPokemon:customComparator " value="{{aPokemon.url}}">{{aPokemon.name}}</option>
 		  </select>
-		  <button ng-click="displayInfos(8)">Go</button>
-		<br />
-		{{selectPokemon}}
-
+		  <button ng-click="displayInfos(selectPokemon)">Afficher infos</button>
+        {{ selectPokemon }}
+        <br /><br />
 		<!-- Pokémon information -->
-		<div>{{infos}}</div>
-		</div>
+        <h3>Informations sur le pokémon</<h3>
+        <br /><br />
 
+         <ul>
+          <li ng-repeat="info in infos">
+            <b>{{ info.nom }}</b> : {{ info.value }}
+          </li>
+        </ul> 
+		</div>
 
 	</div>
 
