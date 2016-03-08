@@ -23,13 +23,12 @@ pokeApp.controller('search', ['$scope','$log','$http','apiService', function($sc
 	  apiService.getSkills(uri,function(response) {
         
 		$scope.infos = [
-          //{"nom": "name", "value": response.name},
-          //{"nom": "id", "value": response.pkdx_id},
-          //{"nom": "attack", "value": response.attack},
-          //{"nom": "defense", "value": response.defense}
+          {"nom": "name", "value": response.name},
+          {"nom": "weight", "value": response.weight},
+          {"nom": "height", "value": response.height},
+          {"nom": "experience", "value": response.base_experience}
        ];
 	  });
-  
   }
   
   $scope.customComparator = function(actual, expected){
@@ -43,10 +42,9 @@ factory('apiService', ['$resource', '$log', function(http, logger) {
 //			http(pokeApiUrl+'api/v1/pokedex/1/').get().$promise.then(function successCallback(response) {
 
             // call API v2
-			http(pokeApiUrl+'api/v2/pokemon/').query().$promise.then(function successCallback(response) {
-				console.log(response);
-				//console.log(response.pokemon);
-				var pokemons = response.map(function(e) {
+			http(pokeApiUrl+'api/v2/pokemon/').get().$promise.then(function successCallback(response) {
+				
+				var pokemons = response.results.map(function(e) {
                     return e;
 				});
 				callback(pokemons);
@@ -56,9 +54,8 @@ factory('apiService', ['$resource', '$log', function(http, logger) {
 			  });
 			},
 		getSkills : function(uri,callback) {
-            // FIX
-			http(':uri',{uri:'@uri'}).query({uri:uri}).$promise.then(function successCallback(response) {
-				console.log(response.attack);
+//			http(':uri',{uri:'@uri'}).get({uri:uri}).$promise.then(function successCallback(response) {
+			http(uri).get().$promise.then(function successCallback(response) {
                 callback(response);
 			  }, function errorCallback(response) {
                 console.log("error");
