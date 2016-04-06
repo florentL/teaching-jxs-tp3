@@ -10,31 +10,55 @@
 <body ng-app="pokedex">
 
 	<div class="container">
-		<h1>Pokésir</h1>
-
+		<div class="col-sm-12">
+			<h1>Pokésir</h1>
+		</div>
+		
+		
 		<!-- Search -->
 		<div ng-controller="search">
-		  <input ng-model="id" ng-pattern="/^\d+$/" name="pokemon" class="my-input"
-		         aria-describedby="inputDescription" />
-		<br />
-		{{id}}
-		<br />
-		<input type="text" placeholder="filtre sur liste déroulante" ng-model="filterPokemon" />
-		  <select ng-model="selectPokemon">
-			<option ng-repeat="aPokemon in api | filter:filterPokemon:customComparator " value="{{aPokemon.url}}">{{aPokemon.name}}</option>
-		  </select>
-		  <button ng-click="displayInfos(selectPokemon)">Afficher infos</button>
-        {{ selectPokemon }}
-        <br /><br />
-		<!-- Pokémon information -->
-        <h3>Informations sur le pokémon</<h3>
-        <br /><br />
+			<div class="col-sm-3">
+				<div class="form-group">
+		  			<input ng-model="id" ng-pattern="/^\d+$/" name="pokemon" class="my-input form-control" placeholder="Entrez l'id du pokémon voulu" aria-describedby="inputDescription" />
+				</div>
+			</div>
+			<div class="row"></div>
 
-         <ul>
-          <li ng-repeat="info in infos">
-            <b>{{ info.nom }}</b> : {{ info.value }}
-          </li>
-        </ul> 
+			<div class="col-sm-3">
+				<div class="form-group">
+					<input type="text" placeholder="filtre sur liste déroulante" ng-model="filterPokemon" class="form-control" />
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<div class="form-group">
+			  		<select ng-model="selectPokemon" class="form-control">
+						<option ng-repeat="aPokemon in api | filter:filterPokemon:customComparator " value="{{aPokemon.url}}">{{aPokemon.name}}</option>
+			  		</select>
+				</div>
+			</div>
+			<div class="col-sm-3">
+			  	<button ng-click="displayInfos(selectPokemon, id)" class="btn btn-default">Afficher infos</button>
+	        </div>
+	        <br /><br />
+	        
+			<!-- Pokémon information -->
+			<div class="col-sm-12"><hr></div>
+			<div class="col-sm-12">
+	        	<h3>Informations sur le pokémon</h3>
+	        </div>
+	        <div class="row"></div>
+		   
+	   		<div class="col-sm-2">
+	        	<img alt="" src="{{ sprite }}">
+			</div>
+			
+			<div class="col-sm-10">
+	        <ul>
+	          	<li ng-repeat="info in infos">
+	            	<b>{{ info.nom }}</b> : {{ info.value }}
+	          	</li>
+	        </ul>
+	        </div> 
 		</div>
 
 	</div>
