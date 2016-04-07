@@ -14,7 +14,7 @@ pokeApp.controller('search', ['$scope','$log','$http','apiService', function($sc
   });
 
   $scope.displayInfos = function(uri, id) {
-	  
+	  $scope.loading = true; 
 	  if (typeof (uri) === "undefined") {
 		  uri = pokeApiUrl+"api/v2/pokemon/"+id+"/";
 	  }
@@ -29,6 +29,8 @@ pokeApp.controller('search', ['$scope','$log','$http','apiService', function($sc
           {"nom": "experience", "value": response.base_experience}
        ];
 		$scope.sprite = response.sprites.front_default;
+
+		$scope.loading = false; 
 	  });
   }
   
